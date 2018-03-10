@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.lespaul361</groupId>
     <artifactId>ebaysdkcore</artifactId>
-    <version>1027.0.0-SNAPSHOT</version>
+    <version>1027.0.0</version>
     <packaging>jar</packaging>
     <licenses>
         <license>
@@ -16,10 +16,10 @@
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
-        <maven.compiler.testSource>1.8</maven.compiler.testSource>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.testTarget>1.7</maven.compiler.testTarget>
+        <maven.compiler.testSource>1.7</maven.compiler.testSource>
     </properties>
     <scm>
         <connection>scm:git:git//github.com/lespaul361/eBaySDK1027.git</connection>
@@ -31,6 +31,34 @@
             <name>Unknown</name>
         </developer>        
     </developers>
+    <profiles>
+        <profile>
+            <id>non-local</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>
@@ -119,4 +147,24 @@
             <version>2.7.1</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>server001</id>            
+            <url>http://192.168.0.101:8081/nexus/content/repositories/central/</url>
+        </repository>
+        <snapshotRepository>
+            <id>server001</id>            
+            <url>http://192.168.0.101:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <!--
+        <snapshotRepository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+</snapshotRepository>
+<repository>
+    <id>ossrh</id>
+    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+</repository>
+        -->
+    </distributionManagement>
 </project>
